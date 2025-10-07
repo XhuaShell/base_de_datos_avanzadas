@@ -1,0 +1,13 @@
+services:
+  myDB:
+    image: postgres:17
+    container_name: db-universidad
+    restart: no
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=universidad
+    volumes:
+      - ./postgres-universidad:/var/lib/postgresql/data
