@@ -11,28 +11,109 @@
 CREATE DATABASE banco;
 
 
-DROP TABLE IF EXISTS ciudad;
-
-CREATE TABLE ciudad(
-    codigo_ciudad INT,
-    nombre VARCHAR(50),
-    PRIMARY KEY(codigo_ciudad)
+CREATE TABLE ciudad (
+    codigo INT NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    PRIMARY KEY(codigo)
 );
 
 
-DROP TABLE IF EXISTS cliente;
+CREATE TABLE sucursal (
+    nombre VARCHAR(100) NOT NULL,
+    activos INT NOT NULL,
+    codigo_ciudad INT NOT NULL,
+    PRIMARY KEY(nombre)
+);
 
-DROP TABLE IF EXISTS telefonos;
 
-DROP TABLE IF EXISTS sucursal;
+CREATE TABLE prestamo (
+    id_prestamo INT NOT NULL,
+    valor REAL NOT NULL,
+    plazo INT NOT NULL,
+    nombre_sucursal VARCHAR(100),
+    PRIMARY KEY(id_prestamo)
+);
 
-DROP TABLE IF EXISTS prestamo;
 
-DROP TABLE IF EXISTS pago;
+CREATE TABLE pago (
+    numero_pago INT NOT NULL,
+    id_prestamo INT NOT NULL,
+    valor REAL NOT NULL,
+    fecha DATE NOT NULL,
+    PRIMARY KEY(numero_pago, id_prestamo)
+);
 
-DROP TABLE IF EXISTS solicitar;
 
-DROP TABLE IF EXISTS tener;
+CREATE TABLE cliente (
+    id_cliente INT NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    direccion VARCHAR(100) NOT NULL,
+    codigo_ciudad INT NOT NULL,
+    PRIMARY KEY(id_cliente)
+);
 
-DROP TABLE IF EXISTS pago;
 
+CREATE TABLE cuenta (
+    numero_cuenta INT NOT NULL,
+    saldo INT,
+    fecha_a DATE NOT NULL,
+    PRIMARY KEY (numero_cuenta)
+);
+
+
+CREATE TABLE telefonos (
+    telefono VARCHAR(15) NOT NULL,
+    id_cliente INT NOT NULL,
+    PRIMARY KEY(telefono, id_cliente)
+);
+
+
+CREATE TABLE tener (
+    id_cliente INT NOT NULL,
+    numero_cuenta INT NOT NULL,
+    PRIMARY KEY(numero_cuenta, id_cliente)
+);
+
+
+CREATE TABLE solicitar (
+    id_cliente INT NOT NULL,
+    id_prestamo INT NOT NULL,
+    PRIMARY KEY(id_cliente, id_prestamo)
+);
+
+
+ALTER TABLE sucursal
+    ADD CONSTRAINT sucursal_codigo_ciudad_fk
+    FOREIGN KEY (codigo_ciudad) REFERENCES ciudad (codigo);
+
+ALTER TABLE prestamo
+    ADD CONSTRAINT prestamo_nombre_sucursal_fk
+    FOREIGN KEY (nombre_sucursal) REFERENCES sucursal (nombre);
+
+ALTER TABLE pago
+    ADD CONSTRAINT pago_id_prestamo_fk
+    FOREIGN KEY (id_prestamo) REFERENCES prestamo (id_prestamo);
+
+ALTER TABLE cliente
+    ADD CONSTRAINT cliente_codigo_ciudad_fk
+    FOREIGN KEY (codigo_ciudad) REFERENCES ciudad (codigo);
+
+ALTER TABLE telefonos
+    ADD CONSTRAINT telefonos_id_cliente_fk
+    FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente);
+
+ALTER TABLE tener
+    ADD CONSTRAINT tener_id_cliente_fk
+    FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente);
+
+ALTER TABLE tener
+    ADD CONSTRAINT tener_numero_cuenta_fk
+    FOREIGN KEY (numero_cuenta) REFERENCES cuenta (numero_cuenta);
+
+ALTER TABLE solicitar
+    ADD CONSTRAINT solicitar_id_cliente_fk
+    FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente);
+
+ALTER TABLE solicitar
+    ADD CONSTRAINT solicitar_id_prestamo_fk
+    FOREIGN KEY (id_prestamo) REFERENCES prestamo (id_prestamo);

@@ -157,7 +157,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="oPXRSn1LA7k6ZmyRwilY-77" value="codigo_ciudad" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;align=left;rounded=0;" parent="1" vertex="1">
+        <mxCell id="oPXRSn1LA7k6ZmyRwilY-77" value="codigo" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;align=left;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="284" y="110" width="98" height="70" as="geometry" />
         </mxCell>
         <mxCell id="oPXRSn1LA7k6ZmyRwilY-78" value="&amp;nbsp; nombre" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=0;" parent="oPXRSn1LA7k6ZmyRwilY-77" vertex="1">

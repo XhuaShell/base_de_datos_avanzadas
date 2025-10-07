@@ -1,2 +1,5 @@
 # Ignorando todos los archivos creados por docker 
 PostgreSQL/postgres-universidad
+
+# Ignora los vinarios de draw.io
+*.bkp
