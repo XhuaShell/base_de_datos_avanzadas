@@ -1,13 +1,3 @@
-
--- Elaborar script DDL para la BD, teniendo en cuenta que las restricciones de
--- integridad de PK y NOT NULL se incluyan en la creación de las tablas y las 
--- restricciones de integridad de FK no se realizan en la creación de las tablas.
-
--- Incluir la restricción de integridad que permita establecer plazo máximo 
--- de 60 meses para los préstamos. No olvidar incluir las sentencias de verificación 
--- de funcionamiento.
-
--- Creacion de la base de datos.
 CREATE DATABASE banco;
 
 
@@ -29,7 +19,7 @@ CREATE TABLE sucursal (
 CREATE TABLE prestamo (
     id_prestamo INT NOT NULL,
     valor REAL NOT NULL,
-    plazo INT NOT NULL,
+    plazo INT NOT NULL, 
     nombre_sucursal VARCHAR(100),
     PRIMARY KEY(id_prestamo)
 );
@@ -57,7 +47,7 @@ CREATE TABLE cuenta (
     numero_cuenta INT NOT NULL,
     saldo INT,
     fecha_a DATE NOT NULL,
-    PRIMARY KEY (numero_cuenta)
+    PRIMARY KEY(numero_cuenta)
 );
 
 
@@ -81,39 +71,50 @@ CREATE TABLE solicitar (
     PRIMARY KEY(id_cliente, id_prestamo)
 );
 
-
+-- Llaves foráneas
 ALTER TABLE sucursal
-    ADD CONSTRAINT sucursal_codigo_ciudad_fk
-    FOREIGN KEY (codigo_ciudad) REFERENCES ciudad (codigo);
+    ADD CONSTRAINT sucursal_codigo_ciudad_fk FOREIGN KEY (codigo_ciudad) REFERENCES ciudad (codigo);
 
 ALTER TABLE prestamo
-    ADD CONSTRAINT prestamo_nombre_sucursal_fk
-    FOREIGN KEY (nombre_sucursal) REFERENCES sucursal (nombre);
+    ADD CONSTRAINT prestamo_nombre_sucursal_fk FOREIGN KEY (nombre_sucursal) REFERENCES sucursal (nombre);
 
 ALTER TABLE pago
-    ADD CONSTRAINT pago_id_prestamo_fk
-    FOREIGN KEY (id_prestamo) REFERENCES prestamo (id_prestamo);
+    ADD CONSTRAINT pago_id_prestamo_fk FOREIGN KEY (id_prestamo) REFERENCES prestamo (id_prestamo);
 
 ALTER TABLE cliente
-    ADD CONSTRAINT cliente_codigo_ciudad_fk
-    FOREIGN KEY (codigo_ciudad) REFERENCES ciudad (codigo);
+    ADD CONSTRAINT cliente_codigo_ciudad_fk FOREIGN KEY (codigo_ciudad) REFERENCES ciudad (codigo);
 
 ALTER TABLE telefonos
-    ADD CONSTRAINT telefonos_id_cliente_fk
-    FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente);
+    ADD CONSTRAINT telefonos_id_cliente_fk FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente);
 
 ALTER TABLE tener
-    ADD CONSTRAINT tener_id_cliente_fk
-    FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente);
+    ADD CONSTRAINT tener_id_cliente_fk FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente);
 
 ALTER TABLE tener
-    ADD CONSTRAINT tener_numero_cuenta_fk
-    FOREIGN KEY (numero_cuenta) REFERENCES cuenta (numero_cuenta);
+    ADD CONSTRAINT tener_numero_cuenta_fk FOREIGN KEY (numero_cuenta) REFERENCES cuenta (numero_cuenta);
 
 ALTER TABLE solicitar
-    ADD CONSTRAINT solicitar_id_cliente_fk
-    FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente);
+    ADD CONSTRAINT solicitar_id_cliente_fk FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente);
 
 ALTER TABLE solicitar
-    ADD CONSTRAINT solicitar_id_prestamo_fk
-    FOREIGN KEY (id_prestamo) REFERENCES prestamo (id_prestamo);
+    ADD CONSTRAINT solicitar_id_prestamo_fk FOREIGN KEY (id_prestamo) REFERENCES prestamo (id_prestamo);
+
+
+-- Incluir la restricción de integridad que permita establecer plazo máximo de 60 meses para los préstamos. No olvidar incluir las sentencias de verificación de funcionamiento
+
+ALTER TABLE prestamo
+ADD CONSTRAINT chk_plazo_maximo
+CHECK (plazo <= 60);
+ 
+-- SELECT * FROM prestamo;
+--  
+-- -- Verificado No pasa 
+-- INSERT INTO prestamo (id_prestamo, valor, plazo, nombre_sucursal)
+-- VALUES (1, 101, 61, 'Marco Polo');
+-- 
+-- -- Verificado Si pasa 
+-- INSERT INTO prestamo (id_prestamo, valor, plazo)
+-- VALUES (1, 101, 59);
+-- 
+-- SELECT * FROM prestamo;
+ 
